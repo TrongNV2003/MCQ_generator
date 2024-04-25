@@ -4,6 +4,7 @@ from transformers import T5Config, T5ForConditionalGeneration, T5Tokenizer
 
 from dataset import QGDataset
 from trainer import Trainer
+import pandas as pd
 
 
 def parse_args() -> argparse.Namespace:
@@ -41,9 +42,21 @@ def get_model(checkpoint: str, device: str, tokenizer: T5Tokenizer) -> T5ForCond
 if __name__ == "__main__":
     args = parse_args()
     tokenizer = get_tokenizer(args.qg_model)
-    dataset = datasets.load_dataset("iarfmoose/question_generator")
-    train_set = QGDataset(dataset["train"], args.max_length, args.pad_mask_id, tokenizer)
-    valid_set = QGDataset(dataset["validation"], args.max_length, args.pad_mask_id, tokenizer)
+    # dataset = datasets.load_dataset("iarfmoose/question_generator")
+    train_set = QGDataset(
+        csv_file='C:/Users/Admin/OneDrive/Desktop/MyDataset/train_dataset.csv',
+        max_length=args.max_length,
+        pad_mask_id=args.pad_mask_id,
+        tokenizer=tokenizer
+    )
+
+    valid_set = QGDataset(
+        csv_file='C:/Users/Admin/OneDrive/Desktop/MyDataset/eval_dataset.csv',
+        max_length=args.max_length,
+        pad_mask_id=args.pad_mask_id,
+        tokenizer=tokenizer
+    )
+    
     model = get_model(args.qg_model, args.device, tokenizer)
     trainer = Trainer(
         dataloader_workers=args.dataloader_workers,

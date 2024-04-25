@@ -10,12 +10,12 @@ import en_core_web_sm
 class QGDataset(torch.utils.data.Dataset):
     def __init__(
         self,
-        data: datasets.Dataset,
+        csv_file: str,  # Thêm đối số mới để truyền đường dẫn đến file CSV
         max_length: int,
         pad_mask_id: int,
         tokenizer: AutoTokenizer
     ) -> None:
-        self.data = pd.DataFrame(data)
+        self.data = pd.read_csv(csv_file)  # Đọc dữ liệu từ file CSV
         self.max_length = max_length
         self.pad_mask_id = pad_mask_id
         self.tokenizer = tokenizer
@@ -25,7 +25,7 @@ class QGDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int) -> Mapping[str, torch.Tensor]:
         item = self.data.loc[index]
-        input_ids, attention_mask = self._encode_text(item.text)
+        input_ids, attention_mask = self._encode_text(item.question)  # Sửa đổi ở đây
         labels, _ = self._encode_text(item.question)
         masked_labels = self._mask_label_padding(labels)
         return {

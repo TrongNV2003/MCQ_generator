@@ -158,7 +158,7 @@ class QuestionGenerator:
         """Splits a long text into segments short enough to be input into the transformer network.
         Segments are used as context for question generation.
         """
-        MAX_TOKENS = 490
+        MAX_TOKENS = 512
         paragraphs = text.split("\n")
         tokenized_paragraphs = [
             self.qg_tokenizer(p)["input_ids"] for p in paragraphs if len(p) > 0
