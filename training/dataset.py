@@ -25,7 +25,7 @@ class QGDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, index: int) -> Mapping[str, torch.Tensor]:
         item = self.data.loc[index]
-        input_ids, attention_mask = self._encode_text(item.question)  # Sửa đổi ở đây
+        input_ids, attention_mask = self._encode_text(item.text)
         labels, _ = self._encode_text(item.question)
         masked_labels = self._mask_label_padding(labels)
         return {
@@ -53,8 +53,13 @@ class QGDataset(torch.utils.data.Dataset):
 
 
 class QAEvalDataset(torch.utils.data.Dataset):
-    def __init__(self, data: datasets.Dataset, max_length: int, tokenizer: AutoTokenizer) -> None:
-        self.data = pd.DataFrame(data)
+    def __init__(
+        self, 
+        csv_file: str, 
+        max_length: int, 
+        tokenizer: AutoTokenizer
+    ) -> None:
+        self.data = pd.read_csv(csv_file)  # Đọc dữ liệu từ file CSV
         self.max_length = max_length
         self.transforms = [self.shuffle, self.corrupt]
         self.hf_tokenizer = tokenizer
