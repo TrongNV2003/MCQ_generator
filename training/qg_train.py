@@ -44,14 +44,14 @@ if __name__ == "__main__":
     tokenizer = get_tokenizer(args.qg_model)
     # dataset = datasets.load_dataset("iarfmoose/question_generator")
     train_set = QGDataset(
-        csv_file='C:/Users/Admin/OneDrive/Desktop/MyDataset/train_dataset.csv',
+        csv_file='/sample/eval_dataset.csv',
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
     )
 
     valid_set = QGDataset(
-        csv_file='C:/Users/Admin/OneDrive/Desktop/MyDataset/eval_dataset.csv',
+        csv_file='/sample/eval_dataset.csv',
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
