@@ -33,13 +33,13 @@ if __name__ == "__main__":
     # train_set = QAEvalDataset(dataset["train"], args.max_length, tokenizer)
     # valid_set = QAEvalDataset(dataset["validation"], args.max_length, tokenizer)
     train_set = QAEvalDataset(
-        csv_file='sample/train_dataset.csv',
+        csv_file='sample/validation/train_dataset.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
 
     valid_set = QAEvalDataset(
-        csv_file='sample/eval_dataset.csv',
+        csv_file='sample/validation/eval_dataset.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
