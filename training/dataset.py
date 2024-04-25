@@ -55,7 +55,7 @@ class QGDataset(torch.utils.data.Dataset):
 class QAEvalDataset(torch.utils.data.Dataset):
     def __init__(
         self, 
-        csv_file: str, 
+        csv_file: str, # Thêm đối số mới để truyền đường dẫn đến file CSV
         max_length: int, 
         tokenizer: AutoTokenizer
     ) -> None:

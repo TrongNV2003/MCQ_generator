@@ -45,14 +45,14 @@ if __name__ == "__main__":
     # dataset = datasets.load_dataset("iarfmoose/question_generator")
     
     train_set = QGDataset(
-        csv_file='sample/train_dataset.csv',
+        csv_file='sample/train_dataset.csv', # tạo file train
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
     )
 
     valid_set = QGDataset(
-        csv_file='sample/eval_dataset.csv',
+        csv_file='sample/eval_dataset.csv', # tạo file test
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
