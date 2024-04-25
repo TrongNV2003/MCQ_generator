@@ -2,6 +2,7 @@ import argparse
 import datasets
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import spacy
+import pandas as pd
 
 from dataset import QAEvalDataset
 from trainer import Trainer
@@ -28,9 +29,21 @@ def parse_args() -> argparse.Namespace:
 if __name__ == "__main__":
     args = parse_args()
     tokenizer = AutoTokenizer.from_pretrained(args.qa_eval_model)
-    dataset = datasets.load_dataset("iarfmoose/qa_evaluator")
-    train_set = QAEvalDataset(dataset["train"], args.max_length, tokenizer)
-    valid_set = QAEvalDataset(dataset["validation"], args.max_length, tokenizer)
+    # dataset = datasets.load_dataset("iarfmoose/qa_evaluator")
+    # train_set = QAEvalDataset(dataset["train"], args.max_length, tokenizer)
+    # valid_set = QAEvalDataset(dataset["validation"], args.max_length, tokenizer)
+    train_set = QAEvalDataset(
+        csv_file='sample/train_dataset.csv',
+        max_length=args.max_length,
+        tokenizer=tokenizer
+    )
+
+    valid_set = QAEvalDataset(
+        csv_file='sample/eval_dataset.csv',
+        max_length=args.max_length,
+        tokenizer=tokenizer
+    )
+
     model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
     trainer = Trainer(
         dataloader_workers=args.dataloader_workers,
