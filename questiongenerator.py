@@ -399,7 +399,7 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
         # wider space for 2 digit q nums
         space = " " * int(np.where(i < 9, 3, 4))
 
-        print(f"{i + 1}) Q: {qa_list[i]['question']}")
+        print(f"{i + 1}) Question: {qa_list[i]['question']}")
 
         answer = qa_list[i]["answer"]
 
@@ -408,7 +408,7 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
 
             if show_answers:
                 print(
-                    f"{space}A: 1. {answer[0]['answer']} "
+                    f"{space}Answer: 1. {answer[0]['answer']} "
                     f"{np.where(answer[0]['correct'], '(correct)', '')}"
                 )
                 for j in range(1, len(answer)):
@@ -418,7 +418,7 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
                     )
 
             else:
-                print(f"{space}A: 1. {answer[0]['answer']}")
+                print(f"{space}Answer: 1. {answer[0]['answer']}")
                 for j in range(1, len(answer)):
                     print(f"{space + '   '}{j + 1}. {answer[j]['answer']}")
 
@@ -427,4 +427,4 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
         # print full sentence answers
         else:
             if show_answers:
-                print(f"{space}A: {answer}\n")
+                print(f"{space}Answer: {answer}\n")
