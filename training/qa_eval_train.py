@@ -20,9 +20,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--qa_eval_model", type=str, default="bert-base-cased")
     parser.add_argument("--pad_mask_id", type=int, default=-100)
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
-    parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator.csv")
+    parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--train_batch_size", type=int, default=16)
     parser.add_argument("--valid_batch_size", type=int, default=128)
+    parser.add_argument("--log_file", type=str, default="validating_log.csv")
     return parser.parse_args()
 
 
@@ -44,6 +45,8 @@ if __name__ == "__main__":
         max_length=args.max_length,
         tokenizer=tokenizer
     )
+    
+    log_file = 'validating_log.csv'
 
     model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
     trainer = Trainer(
@@ -59,6 +62,7 @@ if __name__ == "__main__":
         train_set=train_set,
         valid_batch_size=args.valid_batch_size,
         valid_set=valid_set,
+        log_file=log_file,
         evaluate_on_accuracy=True
     )
     trainer.train()

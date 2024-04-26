@@ -16,9 +16,10 @@ class Logger:
             writer.writeheader()
 
     def log(self, data: dict):
+        rounded_data = {key: round(value, 3) if isinstance(value, float) else value for key, value in data.items()}
         with open(self.file_path, mode='a', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=self.fieldnames)
-            writer.writerow(data)
+            writer.writerow(rounded_data)
 
 class Trainer:
     def __init__(
@@ -34,6 +35,7 @@ class Trainer:
         train_batch_size: int,
         train_set: Dataset,
         valid_batch_size: int,
+        log_file: str,
         valid_set: Dataset,
         evaluate_on_accuracy: bool = False
     ) -> None:
@@ -46,7 +48,7 @@ class Trainer:
         self.fieldnames = ['epoch', 'train_loss', 'valid_loss', 'valid_accuracy']
 
         # Create a Logger instance
-        self.logger = Logger(file_path='training_log.csv', fieldnames=self.fieldnames)
+        self.logger = Logger(file_path=log_file, fieldnames=self.fieldnames)
 
         self.train_loader = DataLoader(
             train_set,
@@ -98,8 +100,9 @@ class Trainer:
                     )
                     self.best_valid_score = valid_accuracy
                     self._save()
-                    self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
-                                     'valid_loss': None, 'valid_accuracy': valid_accuracy})
+                self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
+                                    'valid_loss': None, 'valid_accuracy': valid_accuracy})
+                
             else:
                 valid_loss = self.evaluate(self.valid_loader)
                 if valid_loss < self.best_valid_score:
@@ -107,8 +110,8 @@ class Trainer:
                         f"Validation loss decreased from {self.best_valid_score:.4f} to {valid_loss:.4f}. Saving.")
                     self.best_valid_score = valid_loss
                     self._save()
-                    self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
-                                     'valid_loss': valid_loss, 'valid_accuracy': None})
+                self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
+                                    'valid_loss': valid_loss, 'valid_accuracy': None})
 
     @torch.no_grad()
     def evaluate(self, dataloader: DataLoader) -> float:
