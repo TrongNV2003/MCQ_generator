@@ -4,9 +4,21 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset
 from sklearn.metrics import accuracy_score
 from transformers import AutoTokenizer
-
+import csv
 from utils import AverageMeter
 
+class Logger:
+    def __init__(self, file_path: str, fieldnames: list):
+        self.file_path = file_path
+        self.fieldnames = fieldnames
+        with open(self.file_path, mode='w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=self.fieldnames)
+            writer.writeheader()
+
+    def log(self, data: dict):
+        with open(self.file_path, mode='a', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=self.fieldnames)
+            writer.writerow(data)
 
 class Trainer:
     def __init__(
@@ -30,6 +42,12 @@ class Trainer:
         self.save_dir = save_dir
         self.train_batch_size = train_batch_size
         self.valid_batch_size = valid_batch_size
+        # Define the fieldnames for the CSV file
+        self.fieldnames = ['epoch', 'train_loss', 'valid_loss', 'valid_accuracy']
+
+        # Create a Logger instance
+        self.logger = Logger(file_path='training_log.csv', fieldnames=self.fieldnames)
+
         self.train_loader = DataLoader(
             train_set,
             batch_size=train_batch_size,
@@ -80,6 +98,8 @@ class Trainer:
                     )
                     self.best_valid_score = valid_accuracy
                     self._save()
+                    self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
+                                     'valid_loss': None, 'valid_accuracy': valid_accuracy})
             else:
                 valid_loss = self.evaluate(self.valid_loader)
                 if valid_loss < self.best_valid_score:
@@ -87,6 +107,8 @@ class Trainer:
                         f"Validation loss decreased from {self.best_valid_score:.4f} to {valid_loss:.4f}. Saving.")
                     self.best_valid_score = valid_loss
                     self._save()
+                    self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
+                                     'valid_loss': valid_loss, 'valid_accuracy': None})
 
     @torch.no_grad()
     def evaluate(self, dataloader: DataLoader) -> float:
