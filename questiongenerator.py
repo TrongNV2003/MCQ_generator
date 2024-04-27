@@ -24,7 +24,7 @@ class QuestionGenerator:
 
     def __init__(self) -> None:
 
-        QG_PRETRAINED = "iarfmoose/t5-base-question-generator"
+        QG_PRETRAINED = "t5-base-question-generator"
         self.ANSWER_TOKEN = "<answer>"
         self.CONTEXT_TOKEN = "<context>"
         self.SEQ_LENGTH = 512
@@ -331,7 +331,7 @@ class QAEvaluator:
 
     def __init__(self) -> None:
 
-        QAE_PRETRAINED = "iarfmoose/bert-base-cased-qa-evaluator"
+        QAE_PRETRAINED = "bert-base-cased-qa-evaluator"
         self.SEQ_LENGTH = 512
 
         self.device = torch.device(

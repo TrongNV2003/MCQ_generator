@@ -23,7 +23,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--train_batch_size", type=int, default=16)
     parser.add_argument("--valid_batch_size", type=int, default=128)
-    parser.add_argument("--log_file", type=str, default="validating_log.csv")
+    parser.add_argument("--log_file", type=str, default="evaluating_log.csv")
     return parser.parse_args()
 
 
@@ -35,18 +35,18 @@ if __name__ == "__main__":
     # valid_set = QAEvalDataset(dataset["validation"], args.max_length, tokenizer)
     
     train_set = QAEvalDataset(
-        csv_file='sample/validation/train_dataset.csv',
+        csv_file='sample/evaluation/train_dataset.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
 
     valid_set = QAEvalDataset(
-        csv_file='sample/validation/eval_dataset.csv',
+        csv_file='sample/evaluation/eval_dataset.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
     
-    log_file = 'validating_log.csv'
+    log_file = 'evaluating_log.csv'
 
     model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
     trainer = Trainer(
