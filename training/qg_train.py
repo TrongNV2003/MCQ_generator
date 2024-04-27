@@ -43,7 +43,6 @@ def get_model(checkpoint: str, device: str, tokenizer: T5Tokenizer) -> T5ForCond
 if __name__ == "__main__":
     args = parse_args()
     tokenizer = get_tokenizer(args.qg_model)
-    # dataset = datasets.load_dataset("iarfmoose/question_generator")
     
     train_set = QGDataset(
         csv_file='sample/train/qg_train.csv', # tạo file train
