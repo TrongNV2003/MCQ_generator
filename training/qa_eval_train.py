@@ -22,7 +22,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--train_batch_size", type=int, default=16)
-    parser.add_argument("--valid_batch_size", type=int, default=128)
+    parser.add_argument("--valid_batch_size", type=int, default=32)
     parser.add_argument("--log_file", type=str, default="evaluating_log.csv")
     return parser.parse_args()
 
@@ -32,13 +32,13 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(args.qa_eval_model)
     
     train_set = QAEvalDataset(
-        csv_file='sample/evaluation/train_dataset.csv',
+        csv_file='sample/evaluation/eval_qa_train.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
 
     valid_set = QAEvalDataset(
-        csv_file='sample/evaluation/eval_dataset.csv',
+        csv_file='sample/evaluation/eval_qa_valid.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
