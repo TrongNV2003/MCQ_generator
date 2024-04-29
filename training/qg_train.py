@@ -12,7 +12,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataloader_workers", type=int, default=2)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--epochs", type=int, default=20)
-    parser.add_argument("--learning_rate", type=float, default=1e-3)
+    parser.add_argument("--learning_rate", type=float, default=1e-4)
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--qg_model", type=str, default="t5-base")
     parser.add_argument("--pad_mask_id", type=int, default=-100)
