@@ -15,7 +15,7 @@ class QGDataset(torch.utils.data.Dataset):
         pad_mask_id: int,
         tokenizer: AutoTokenizer
     ) -> None:
-        self.data = pd.read_csv(csv_file)  # Đọc dữ liệu từ file CSV
+        self.data = pd.read_csv(csv_file, encoding='utf-8')  # Đọc dữ liệu từ file CSV
         self.max_length = max_length
         self.pad_mask_id = pad_mask_id
         self.tokenizer = tokenizer
@@ -59,7 +59,7 @@ class QAEvalDataset(torch.utils.data.Dataset):
         max_length: int, 
         tokenizer: AutoTokenizer
     ) -> None:
-        self.data = pd.read_csv(csv_file)  # Đọc dữ liệu từ file CSV
+        self.data = pd.read_csv(csv_file, encoding='utf-8')  # Đọc dữ liệu từ file CSV
         self.max_length = max_length
         self.transforms = [self.shuffle, self.corrupt]
         self.hf_tokenizer = tokenizer
