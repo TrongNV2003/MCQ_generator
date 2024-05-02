@@ -11,13 +11,13 @@ class Logger:
     def __init__(self, file_path: str, fieldnames: list):
         self.file_path = file_path
         self.fieldnames = fieldnames
-        with open(self.file_path, mode='w', newline='') as f:
+        with open(self.file_path, mode='w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=self.fieldnames)
             writer.writeheader()
 
     def log(self, data: dict):
         rounded_data = {key: round(value, 3) if isinstance(value, float) else value for key, value in data.items()}
-        with open(self.file_path, mode='a', newline='') as f:
+        with open(self.file_path, mode='a', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=self.fieldnames)
             writer.writerow(rounded_data)
 
