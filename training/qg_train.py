@@ -11,7 +11,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataloader_workers", type=int, default=2)
     parser.add_argument("--device", type=str, default="cuda")
-    parser.add_argument("--epochs", type=int, default=20)
+    parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--learning_rate", type=float, default=2e-5)
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--qg_model", type=str, default="VietAI/vit5-base")
