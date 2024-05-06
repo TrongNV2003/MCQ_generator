@@ -49,7 +49,7 @@ if __name__ == "__main__":
     )
 
     test_set = QGDataset(
-        csv_file='sample/train/qg_valid.csv',
+        csv_file='sample/test/qg_test.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
