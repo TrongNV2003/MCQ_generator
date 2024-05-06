@@ -10,7 +10,7 @@ def set_seed(seed: int):
     random.seed(seed)
 
 # Sử dụng random seed
-random_seed = 42  # Bạn có thể chọn bất kỳ số nào
+random_seed = 369
 set_seed(random_seed)
 
 from tqdm import tqdm
