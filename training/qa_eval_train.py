@@ -1,6 +1,6 @@
 import argparse
 import datasets
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
+from transformers import AutoModelForQuestionAnswering, AutoTokenizer
 import spacy
 import pandas as pd
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     
     log_file = 'evaluating_log.csv'
 
-    model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
+    model = AutoModelForQuestionAnswering.from_pretrained(args.qa_eval_model)
     trainer = Trainer(
         dataloader_workers=args.dataloader_workers,
         device=args.device,
