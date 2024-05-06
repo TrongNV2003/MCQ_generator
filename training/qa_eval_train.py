@@ -21,7 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--train_batch_size", type=int, default=8)
-    parser.add_argument("--valid_batch_size", type=int, default=32)
+    parser.add_argument("--valid_batch_size", type=int, default=4)
     parser.add_argument("--log_file", type=str, default="evaluating_log.csv")
     return parser.parse_args()
 
