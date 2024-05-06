@@ -58,6 +58,7 @@ class Trainer:
         self.save_dir = save_dir
         self.train_batch_size = train_batch_size
         self.valid_batch_size = valid_batch_size
+        
         # Define the fieldnames for the CSV file
         self.fieldnames = ['epoch', 'train_loss', 'valid_loss', 'valid_accuracy']
 
