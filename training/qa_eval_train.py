@@ -12,7 +12,7 @@ spacy.prefer_gpu()
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataloader_workers", type=int, default=0)
+    parser.add_argument("--dataloader_workers", type=int, default=2)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--epochs", type=int, default=20)
     parser.add_argument("--learning_rate", type=float, default=2e-5)
@@ -63,3 +63,4 @@ if __name__ == "__main__":
         evaluate_on_accuracy=True
     )
     trainer.train()
+

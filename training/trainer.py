@@ -161,3 +161,18 @@ class Trainer:
     def _save(self) -> None:
         self.tokenizer.save_pretrained(self.save_dir)
         self.model.save_pretrained(self.save_dir)
+
+    @torch.no_grad()
+    def test(self, test_loader: DataLoader) -> float:
+        self.model.eval()
+        test_loss = AverageMeter()
+        with tqdm(total=len(test_loader), unit="batches") as tepoch:
+            tepoch.set_description("testing")
+            for data in test_loader:
+                data = {key: value.to(self.device) for key, value in data.items()}
+                output = self.model(**data)
+                loss = output.loss
+                test_loss.update(loss.item(), self.valid_batch_size)
+                tepoch.set_postfix({"test_loss": test_loss.avg})
+                tepoch.update(1)
+        return test_loss.avg
