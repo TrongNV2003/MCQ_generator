@@ -10,7 +10,7 @@ def set_seed(seed: int):
     random.seed(seed)
 
 # Sử dụng random seed
-random_seed = 369
+random_seed = 369 
 set_seed(random_seed)
 
 from tqdm import tqdm
@@ -51,8 +51,6 @@ class Trainer:
         valid_batch_size: int,
         log_file: str,
         valid_set: Dataset,
-        test_batch_size: int,
-        test_set: Dataset,
         evaluate_on_accuracy: bool = False
     ) -> None:
         self.device = device
@@ -60,16 +58,6 @@ class Trainer:
         self.save_dir = save_dir
         self.train_batch_size = train_batch_size
         self.valid_batch_size = valid_batch_size
-        
-        self.test_batch_size = test_batch_size
-        self.test_loader = DataLoader(
-            test_set,
-            batch_size=test_batch_size,
-            num_workers=dataloader_workers,
-            pin_memory=pin_memory,
-            shuffle=False
-        )
-
         # Define the fieldnames for the CSV file
         self.fieldnames = ['epoch', 'train_loss', 'valid_loss', 'valid_accuracy']
 
@@ -173,28 +161,3 @@ class Trainer:
     def _save(self) -> None:
         self.tokenizer.save_pretrained(self.save_dir)
         self.model.save_pretrained(self.save_dir)
-
-    def test(self) -> None:
-        self.model.eval()
-        test_loss = AverageMeter()
-        test_accuracy = AverageMeter()
-
-        with torch.no_grad():
-            for data in tqdm(self.test_loader, desc="Testing"):
-                data = {key: value.to(self.device) for key, value in data.items()}
-                output = self.model(**data)
-                loss = output.loss
-
-                # Update test loss
-                test_loss.update(loss.item(), self.test_batch_size)
-
-                # Calculate accuracy if needed
-                if self.evaluate_on_accuracy:
-                    preds = torch.argmax(output.logits, dim=1)
-                    score = accuracy_score(data["labels"].cpu(), preds.cpu())
-                    test_accuracy.update(score, self.test_batch_size)
-
-        if self.evaluate_on_accuracy:
-            print(f"Test accuracy: {test_accuracy.avg:.4f}")
-        else:
-            print(f"Test loss: {test_loss.avg:.4f}")
