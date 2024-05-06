@@ -115,8 +115,14 @@ class Trainer:
                     )
                     self.best_valid_score = valid_accuracy
                     self._save()
+                valid_loss = self.evaluate(self.valid_loader)
+                if valid_loss < self.best_valid_score:
+                    print(
+                        f"Validation loss decreased from {self.best_valid_score:.4f} to {valid_loss:.4f}. Saving.")
+                    self.best_valid_score = valid_loss
+                    self._save()
                 self.logger.log({'epoch': epoch, 'train_loss': self.train_loss.avg,
-                                    'valid_loss': None, 'valid_accuracy': valid_accuracy})
+                                    'valid_loss': valid_loss, 'valid_accuracy': valid_accuracy})
                 
             else:
                 valid_loss = self.evaluate(self.valid_loader)
