@@ -10,7 +10,7 @@ def set_seed(seed: int):
     random.seed(seed)
 
 # Sử dụng random seed
-random_seed = 369 
+random_seed = 42 
 set_seed(random_seed)
 
 from tqdm import tqdm
