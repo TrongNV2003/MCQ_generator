@@ -1,5 +1,4 @@
 import argparse
-import datasets
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer
 import spacy
 import pandas as pd
