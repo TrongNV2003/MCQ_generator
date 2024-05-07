@@ -15,14 +15,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--train_batch_size", type=int, default=8)
     parser.add_argument("--test_batch_size", type=int, default=8)
-    # parser.add_argument("--save_dir", type=str, default="./test-bert-base-cased")
     parser.add_argument("--log_file", type=str, default="test_qa_log.csv")
-    parser.add_argument("--qa_eval_model", type=str, default="vinai/phobert-base")
+    parser.add_argument("--qa_eval_model", type=str, default="trituenhantaoio/bert-base-vietnamese-uncased")
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
     tokenizer = AutoTokenizer.from_pretrained(args.qa_eval_model)
+
+    train_set = QAEvalDataset(
+        csv_file='sample/evaluation/eval_qa_train.csv',
+        max_length=args.max_length,
+        tokenizer=tokenizer
+    )
 
     test_set = QAEvalDataset(
         csv_file='sample/test/eval_qa_test.csv',
@@ -42,13 +47,13 @@ if __name__ == "__main__":
         pin_memory=args.pin_memory,
         save_dir="",  # Không cần lưu trữ khi test
         train_batch_size=args.train_batch_size,
-        train_set=None,  # Không cần tập dữ liệu huấn luyện khi test
+        train_set=train_set, 
         valid_batch_size=args.test_batch_size,  # Sử dụng test_batch_size cho valid_batch_size
         log_file=args.log_file,  # Sử dụng log_file cho việc lưu kết quả
         valid_set=test_set,  # Sử dụng test_set cho valid_set
         evaluate_on_accuracy=True  # Đánh giá dựa trên độ chính xác khi test
     )
 
-    trainer.evaluate()
-    trainer.evaluate_accuracy()
+    trainer.evaluate(trainer.valid_loader)
+    trainer.evaluate_accuracy(trainer.valid_loader)
     
