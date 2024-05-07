@@ -12,11 +12,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--epochs", type=int, default=1)
     parser.add_argument("--learning_rate", type=float, default=0)
+    parser.add_argument("--pad_mask_id", type=int, default=-100)
+    parser.add_argument("--qa_eval_model", type=str, default="trituenhantaoio/bert-base-vietnamese-uncased")
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--train_batch_size", type=int, default=8)
     parser.add_argument("--test_batch_size", type=int, default=8)
-    parser.add_argument("--log_file", type=str, default="test_qa_log.csv")
-    parser.add_argument("--qa_eval_model", type=str, default="trituenhantaoio/bert-base-vietnamese-uncased")
+    parser.add_argument("--log_file", type=str, default="./result/test_qa_eval_log.csv")
     return parser.parse_args()
 
 if __name__ == "__main__":

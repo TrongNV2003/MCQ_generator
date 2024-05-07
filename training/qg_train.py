@@ -13,13 +13,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--learning_rate", type=float, default=1e-5)
     parser.add_argument("--max_length", type=int, default=512)
-    parser.add_argument("--qg_model", type=str, default="VietAI/vit5-base")
     parser.add_argument("--pad_mask_id", type=int, default=-100)
+    parser.add_argument("--qg_model", type=str, default="VietAI/vit5-base")
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--save_dir", type=str, default="./t5-base-question-generator")
     parser.add_argument("--train_batch_size", type=int, default=4)
     parser.add_argument("--valid_batch_size", type=int, default=4)
-    parser.add_argument("--log_file", type=str, default="training_log.csv")
+    parser.add_argument("--log_file", type=str, default="./result/qg_training_log.csv")
     return parser.parse_args()
 
 
