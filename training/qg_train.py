@@ -51,7 +51,7 @@ if __name__ == "__main__":
     )
 
     valid_set = QGDataset(
-        csv_file='sample/train/qg_valid.csv',
+        csv_file='sample/validation/qg_valid.csv',
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
