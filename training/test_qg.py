@@ -45,6 +45,7 @@ if __name__ == "__main__":
     
     test_set = QGDataset(
         csv_file='sample/test/qg_test.csv',
+        pad_mask_id=args.pad_mask_id,
         max_length=args.max_length,
         tokenizer=tokenizer
     )

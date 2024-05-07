@@ -2,17 +2,6 @@ import torch
 import numpy as np
 import random
 
-# Đặt random seed cho Torch
-def set_seed(seed: int):
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    np.random.seed(seed)
-    random.seed(seed)
-
-# Sử dụng random seed
-random_seed = 42 
-set_seed(random_seed)
-
 from tqdm import tqdm
 from torch.optim import AdamW
 from torch.utils.data import DataLoader, Dataset
