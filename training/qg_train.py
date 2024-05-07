@@ -57,8 +57,6 @@ if __name__ == "__main__":
         tokenizer=tokenizer
     )
     
-    log_file = 'training_log.csv'
-    
     model = get_model(args.qg_model, args.device, tokenizer)
     trainer = Trainer(
         dataloader_workers=args.dataloader_workers,
@@ -73,6 +71,6 @@ if __name__ == "__main__":
         train_set=train_set,
         valid_batch_size=args.valid_batch_size,
         valid_set=valid_set,
-        log_file=log_file
+        log_file=args.log_file
     )
     trainer.train()

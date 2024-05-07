@@ -15,10 +15,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--qg_model", type=str, default="VietAI/vit5-base")
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
-    parser.add_argument("--save_dir", type=str, default="./test-t5-base")
+    # parser.add_argument("--save_dir", type=str, default="./test-t5-base")
     parser.add_argument("--train_batch_size", type=int, default=8)
     parser.add_argument("--test_batch_size", type=int, default=8)
     parser.add_argument("--log_file", type=str, default="test_qg_log.csv")
+    parser.add_argument("--pad_mask_id", type=int, default=-100)
     return parser.parse_args()
 
 
@@ -42,12 +43,6 @@ if __name__ == "__main__":
     args = parse_args()
     tokenizer = get_tokenizer(args.qg_model)
     
-    train_set = QGDataset(
-        csv_file='sample/train/qg_train.csv',
-        max_length=args.max_length,
-        tokenizer=tokenizer
-    )
-
     test_set = QGDataset(
         csv_file='sample/test/qg_test.csv',
         max_length=args.max_length,
@@ -62,13 +57,15 @@ if __name__ == "__main__":
         learning_rate=args.learning_rate,
         model=model,
         pin_memory=args.pin_memory,
-        save_dir=args.save_dir,
+        save_dir="",
         tokenizer=tokenizer,
         train_batch_size=args.train_batch_size,
-        train_set=train_set,
+        train_set=None,
         valid_batch_size=args.test_batch_size,
         valid_set=test_set,
-        log_file=args.log_file
+        log_file=args.log_file,
+        evaluate_on_accuracy=True
     )
     
-    trainer.train()
+    trainer.evaluate()
+    trainer.evaluate_accuracy()
