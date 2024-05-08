@@ -77,5 +77,5 @@ The QA evaluator takes a question answer pair as an input and outputs a value re
 The input for the QA evaluator follows the format for `BertForSequenceClassification`, but using the question and answer as the two sequences. It is the following format:
 
 ```
-[CLS] <question> [SEP] <answer [SEP]
+[CLS] <question> [SEP] <answer> [SEP]
 ```
