@@ -14,7 +14,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataloader_workers", type=int, default=0)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--epochs", type=int, default=20)
-    parser.add_argument("--learning_rate", type=float, default=1e-5)
+    parser.add_argument("--learning_rates", nargs="+", type=float, default=[1e-5, 2e-5, 3e-5])
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--pad_mask_id", type=int, default=-100)
     parser.add_argument("--qa_eval_model", type=str, default="trituenhantaoio/bert-base-vietnamese-uncased")
@@ -41,23 +41,25 @@ if __name__ == "__main__":
         max_length=args.max_length,
         tokenizer=tokenizer
     )
-
-    model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
-    trainer = Trainer(
-        dataloader_workers=args.dataloader_workers,
-        device=args.device,
-        epochs=args.epochs,
-        learning_rate=args.learning_rate,
-        model=model,
-        pin_memory=args.pin_memory,
-        save_dir=args.save_dir,
-        tokenizer=tokenizer,
-        train_batch_size=args.train_batch_size,
-        train_set=train_set,
-        valid_batch_size=args.valid_batch_size,
-        valid_set=valid_set,
-        log_file=args.log_file,
-        evaluate_on_accuracy=True
-    )
-    trainer.train()
+    
+    for lr in args.learning_rates:
+        print(f"Training with learning rate: {lr}")
+        model = AutoModelForSequenceClassification.from_pretrained(args.qa_eval_model)
+        trainer = Trainer(
+            dataloader_workers=args.dataloader_workers,
+            device=args.device,
+            epochs=args.epochs,
+            learning_rate=lr,
+            model=model,
+            pin_memory=args.pin_memory,
+            save_dir=args.save_dir,
+            tokenizer=tokenizer,
+            train_batch_size=args.train_batch_size,
+            train_set=train_set,
+            valid_batch_size=args.valid_batch_size,
+            valid_set=valid_set,
+            log_file=args.log_file,
+            evaluate_on_accuracy=True
+        )
+        trainer.train()
 
