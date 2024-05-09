@@ -77,6 +77,9 @@ class QuestionGenerator:
                 qa_list = self._get_ranked_qa_pairs(
                     generated_questions, qg_answers, scores
                 )
+            # Add confidence scores to QA pairs
+            for qa, score in zip(qa_list, scores):
+                qa["confidence"] = score
 
         else:
             print("Skipping evaluation step.\n")
@@ -303,7 +306,8 @@ class QuestionGenerator:
             index = scores[i]
             qa = {
                 "question": generated_questions[index].split("?")[0] + "?",
-                "answer": qg_answers[index]
+                "answer": qg_answers[index],
+                "confidence": scores[index]
             }
             qa_list.append(qa)
 
@@ -402,7 +406,8 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
         print(f"{i + 1}) Q: {qa_list[i]['question']}")
 
         answer = qa_list[i]["answer"]
-
+        confidence = qa_list[i].get("confidence")  # Get confidence score if it exists
+        
         # print a list of multiple choice answers
         if type(answer) is list:
 
@@ -428,3 +433,12 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
         else:
             if show_answers:
                 print(f"{space}A: {answer}\n")
+                           
+            # Print confidence score if it exists
+                if confidence is not None:
+                    print(f"{space}   Confidence: {confidence}")
+
+            else:
+                print(f"{space}A: {answer}")
+
+            print("")
