@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Questions</title>
+</head>
+<body>
+    <header>
+        <h1>Generated Questions</h1>
+    </header>
+    <main>
+        {% for qa in qa_list %}
+            <p><strong>Question:</strong> {{ qa['question'] }}</p>
+            <p><strong>Answer:</strong> {{ qa['answer'] }}</p>
+            <hr>
+        {% endfor %}
+    </main>
+    <footer>
+        <p>Copyright &copy; 2024 Question Generator</p>
+    </footer>
+</body>
+</html>
