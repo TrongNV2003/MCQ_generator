@@ -86,7 +86,24 @@ class QuestionGenerator:
             qa_list = self._get_all_qa_pairs(generated_questions, qg_answers)
 
         return qa_list
-
+    
+    # def save_questions_to_file(self, qa_list: List[Mapping[str, str]], filename: str) -> None:
+    #     """Lưu các câu hỏi và câu trả lời vào một file văn bản."""
+    #     with open(filename, "w", encoding="utf-8") as file:
+    #         for i, qa in enumerate(qa_list, start=1):
+    #             file.write(f"Question {i}:\n")
+    #             file.write(f"{qa['question']}\n")
+    #             file.write("Answer:\n")
+    #             if isinstance(qa['answer'], list):  # Nếu là câu hỏi nhiều lựa chọn
+    #                 for j, choice in enumerate(qa['answer'], start=1):
+    #                     file.write(f"{j}. {choice['answer']}")
+    #                     if choice['correct']:
+    #                         file.write(" (correct)")
+    #                     file.write("\n")
+    #             else:  # Nếu là câu hỏi một câu trả lời
+    #                 file.write(f"{qa['answer']}\n")
+    #             file.write("\n")    
+    
     def generate_qg_inputs(self, text: str, answer_style: str) -> Tuple[List[str], List[str]]:
         
         """Given a text, returns a list of model inputs and a list of corresponding answers.
