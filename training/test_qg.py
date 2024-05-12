@@ -43,14 +43,14 @@ if __name__ == "__main__":
     tokenizer = get_tokenizer(args.qg_model)
 
     train_set = QGDataset(
-        csv_file='sample/train/qg_train.csv',
+        csv_file='datasets/train/qg_train.csv',
         max_length=args.max_length,
         pad_mask_id=args.pad_mask_id,
         tokenizer=tokenizer
     )
 
     test_set = QGDataset(
-        csv_file='sample/test/qg_test.csv',
+        csv_file='datasets/test/qg_test.csv',
         pad_mask_id=args.pad_mask_id,
         max_length=args.max_length,
         tokenizer=tokenizer
