@@ -30,10 +30,10 @@ The datasets have been uploaded to the Huggingface Hub:
 The easiest way to generate some questions is to clone the github repo and then run `qg_run.py` like this:
 
 ```
-git clone https://github.com/amontgomerie/question_generator
+git clone https://github.com/TrongNV2003/MCQ_generator
 cd question_generator
 pip install -r requirements.txt -qq
-python run_qg.py --text_file articles/twitter_hack.txt
+python run_qg.py --text_file articles/philosophy.txt
 ```
 
 This will generate 10 question-answer pairs of mixed style (full-sentence and multiple choice) based on the article specified in `--text_file` and print them to the console. For more information see the qg_commandline_example notebook.
@@ -66,13 +66,11 @@ The question generator model takes a text as input and outputs a series of quest
 answer_token <extracted answer> context_token <context>
 ```
 
-The concatenated string is then encoded and fed into the question generator model. The model architecture is `t5-base`. The pretrained model was finetuned as a sequence-to-sequence model on a dataset made up several well-known QA datasets ([SQuAD](https://rajpurkar.github.io/SQuAD-explorer/), [RACE](http://www.cs.cmu.edu/~glai1/data/race/), [CoQA](https://stanfordnlp.github.io/coqa/), and [MSMARCO](https://microsoft.github.io/msmarco/)). The datasets were restructured by concatenating the answer and context fields into the previously mentioned format. The concatenated answer and context was then used as an input for training, and the question field became the targets.
-
-The datasets can be found [here](https://drive.google.com/drive/folders/1JtliZ5FyCmczc7e-iJXUoRplKVaWql8s?usp=sharing).
+The concatenated string is then encoded and fed into the question generator model. The model architecture is `VietAI/vit5-base`. The pretrained model was finetuned as a sequence-to-sequence model on a dataset made up by extract data from philosophy book for specific task. The datasets were restructured by concatenating the answer and context fields into the previously mentioned format. The concatenated answer and context was then used as an input for training, and the question field became the targets.
 
 ### QA Evaluator
 
-The QA evaluator takes a question answer pair as an input and outputs a value representing its prediction about whether the input was a valid question and answer pair or not. The model is `bert-base-cased` with a sequence classification head. The pretrained model was finetuned on the same data as the question generator model, but the context was removed. The question and answer were concatenated 50% of the time. In the other 50% of the time a corruption operation was performed (either swapping the answer for an unrelated answer, or by copying part of the question into the answer). The model was then trained to predict whether the input sequence represented one of the original QA pairs or a corrupted input.
+The QA evaluator takes a question answer pair as an input and outputs a value representing its prediction about whether the input was a valid question and answer pair or not. The model is `trituenhantaoio/bert-base-vietnamese-uncased` with a sequence classification head. The pretrained model was finetuned on the same data as the question generator model, but the context was removed. The question and answer were concatenated 50% of the time. In the other 50% of the time a corruption operation was performed (either swapping the answer for an unrelated answer, or by copying part of the question into the answer). The model was then trained to predict whether the input sequence represented one of the original QA pairs or a corrupted input.
 
 The input for the QA evaluator follows the format for `BertForSequenceClassification`, but using the question and answer as the two sequences. It is the following format:
 
