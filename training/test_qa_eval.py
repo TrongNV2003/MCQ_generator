@@ -15,8 +15,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--pad_mask_id", type=int, default=-100)
     parser.add_argument("--qa_eval_model", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
-    parser.add_argument("--train_batch_size", type=int, default=8)
-    parser.add_argument("--test_batch_size", type=int, default=8)
+    parser.add_argument("--train_batch_size", type=int, default=4)
+    parser.add_argument("--test_batch_size", type=int, default=4)
     parser.add_argument("--log_file", type=str, default="result/test_qa_eval_log.csv")
     return parser.parse_args()
 
@@ -50,8 +50,8 @@ if __name__ == "__main__":
         train_batch_size=args.train_batch_size,
         train_set=train_set, 
         valid_batch_size=args.test_batch_size,  # Sử dụng test_batch_size cho valid_batch_size
-        log_file=args.log_file,  # Sử dụng log_file cho việc lưu kết quả
         valid_set=test_set,  # Sử dụng test_set cho valid_set
+        log_file=args.log_file,  # Sử dụng log_file cho việc lưu kết quả
         evaluate_on_accuracy=True  # Đánh giá dựa trên độ chính xác khi test
     )
 
