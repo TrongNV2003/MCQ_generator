@@ -25,13 +25,13 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(args.qa_eval_model)
 
     train_set = QAEvalDataset(
-        csv_file='sample/train/eval_qa_train.csv',
+        csv_file='datasets/train/eval_qa_train.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
 
     test_set = QAEvalDataset(
-        csv_file='sample/test/eval_qa_test.csv',
+        csv_file='datasets/test/eval_qa_test.csv',
         max_length=args.max_length,
         tokenizer=tokenizer
     )
