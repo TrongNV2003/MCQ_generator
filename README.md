@@ -2,7 +2,7 @@
 
 Question Generator is an NLP system for generating reading comprehension-style questions from texts such as news articles or pages excerpts from books. The system is built using pretrained models from [HuggingFace Transformers](https://github.com/huggingface/transformers). There are two models: the question generator itself, and the QA evaluator which ranks and filters the question-answer pairs based on their acceptability.
 
-## Update 2021/11/29
+## Update
 
 ### Updated training scripts
 
@@ -18,12 +18,8 @@ python question_generator/training/qa_eval_train.py
 
 Hyperparameters can be changed using commandline arguments. See the scripts for the list of available arguments.
 
-### Datasets uploaded to Huggingface Hub
-
-The datasets have been uploaded to the Huggingface Hub:
-
-- [question generator training and validation data](https://huggingface.co/datasets/iarfmoose/question_generator)
-- [qa evaluator training and validation data](https://huggingface.co/datasets/iarfmoose/qa_evaluator)
+### Datasets custom
+Perform on github: https://github.com/TrongNV2003/MCQ_generator
 
 ## Usage
 
