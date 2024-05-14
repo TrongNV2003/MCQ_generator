@@ -75,4 +75,4 @@ if __name__ == "__main__":
     )
     
     trainer.evaluate(trainer.valid_loader)
-    trainer.evaluate_accuracy(trainer.valid_loader)
+    trainer.qg_accuracy(trainer.valid_loader)

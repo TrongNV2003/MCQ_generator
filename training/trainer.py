@@ -152,6 +152,31 @@ class Trainer:
                 tepoch.set_postfix({"valid_acc": accuracy.avg})
                 tepoch.update(1)
         return accuracy.avg
+    
+    # tính đang sai
+    @torch.no_grad()
+    def qg_accuracy(self, dataloader: DataLoader) -> float:
+        self.model.eval()
+        total_correct = 0
+        total_samples = 0
+        with tqdm(total=len(dataloader), unit="batches") as tepoch:
+            tepoch.set_description("validation")
+            for data in dataloader:
+                data = {key: value.to(self.device) for key, value in data.items()}
+                output = self.model(**data)
+                preds = torch.argmax(output.logits, dim=-1)
+                # Chuyển tensor data["labels"] sang cùng thiết bị với preds
+                labels = data["labels"].to(preds.device)
+                # Tính số lượng dự đoán đúng cho mỗi mẫu
+                correct = torch.sum(preds == labels).item()
+
+                total_correct += correct
+                total_samples += len(data["labels"])
+                tepoch.set_postfix({"valid_acc": total_correct / total_samples})
+                tepoch.update(1)
+        # Tính độ chính xác tổng thể
+        accuracy = total_correct / total_samples
+        return accuracy
 
     def _save(self) -> None:
         self.tokenizer.save_pretrained(self.save_dir)
