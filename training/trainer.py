@@ -153,30 +153,56 @@ class Trainer:
                 tepoch.update(1)
         return accuracy.avg
     
-    # tính đang sai
     @torch.no_grad()
     def qg_accuracy(self, dataloader: DataLoader) -> float:
         self.model.eval()
-        total_correct = 0
-        total_samples = 0
+        total_accuracy = 0
+        n_outputs = 0
         with tqdm(total=len(dataloader), unit="batches") as tepoch:
             tepoch.set_description("validation")
             for data in dataloader:
                 data = {key: value.to(self.device) for key, value in data.items()}
                 output = self.model(**data)
                 preds = torch.argmax(output.logits, dim=-1)
-                # Chuyển tensor data["labels"] sang cùng thiết bị với preds
                 labels = data["labels"].to(preds.device)
-                # Tính số lượng dự đoán đúng cho mỗi mẫu
-                correct = torch.sum(preds == labels).item()
 
-                total_correct += correct
-                total_samples += len(data["labels"])
-                tepoch.set_postfix({"valid_acc": total_correct / total_samples})
+                # Calculate accuracy for each output
+                batch_accuracy = (preds == labels).float().mean().item()
+                total_accuracy += batch_accuracy
+                n_outputs += 1
+
+                tepoch.set_postfix({"valid_acc": (total_accuracy / n_outputs)*10})
                 tepoch.update(1)
-        # Tính độ chính xác tổng thể
-        accuracy = total_correct / total_samples
+
+        accuracy = total_accuracy / n_outputs
         return accuracy
+
+    # @torch.no_grad()
+    # def qg_accuracy(self, dataloader: DataLoader) -> float:
+    #     self.model.eval()
+    #     accuracies = []
+    #     with tqdm(total=len(dataloader), unit="batches") as tepoch:
+    #         tepoch.set_description("validation")
+    #         for data in dataloader:
+    #             data = {key: value.to(self.device) for key, value in data.items()}
+    #             output = self.model(**data)
+    #             preds = torch.argmax(output.logits, dim=-1)
+    #             labels = data["labels"].to(preds.device)
+
+    #             # Đảm bảo rằng preds và labels có cùng kích thước
+    #             assert preds.shape == labels.shape, f"Shape mismatch: preds {preds.shape}, labels {labels.shape}"
+
+    #             # Tính accuracy cho mỗi sample
+    #             for i in range(labels.shape[1]):  # assuming the second dimension is the number of outputs
+    #                 score = accuracy_score(labels[:, i].cpu(), preds[:, i].cpu())
+    #                 accuracies.append(score)
+                
+    #             avg_accuracy = np.mean(accuracies)
+    #             tepoch.set_postfix({"valid_acc": avg_accuracy})
+    #             tepoch.update(1)
+
+    #     overall_accuracy = np.mean(accuracies)
+    #     return overall_accuracy
 
     def _save(self) -> None:
         self.tokenizer.save_pretrained(self.save_dir)
