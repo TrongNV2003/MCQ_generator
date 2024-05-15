@@ -81,3 +81,10 @@ The input for the QA evaluator follows the format for `BertForSequenceClassifica
 ```
 [CLS] <question> [SEP] <answer> [SEP]
 ```
+
+## UI
+To have a deep inside view in this QA problem, UI is created for users to easy to use 
+You have to fine-tune 2 models above first, then run:
+```python
+python app.py
+```
