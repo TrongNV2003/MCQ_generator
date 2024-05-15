@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from questiongenerator import QuestionGenerator, print_qa
+from questiongenerator import QuestionGenerator
 
 qg = QuestionGenerator()
 
