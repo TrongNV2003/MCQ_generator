@@ -43,6 +43,16 @@ qg.generate(text, num_questions=5)
 
 It will generate 5 questions of mixed style and return a list of dictionaries containing question-answer pairs. In the case of multiple choice questions, the answer will contain a list of dictionaries containing the answers and a boolean value stating if the answer is correct or not. The output can be easily printed using the `print_qa()` function.
 
+## Evaluate score
+get scorer
+!python setup_scorer.py 
+
+evaluation
+!python nqg/qgevalcap/eval.py \
+  --src datasets/evaluation/predict.txt \
+  --tgt datasets/evaluation/tgt-test.txt \
+  --out datasets/evaluation/predict.txt
+
 ### Answer styles
 
 The system can generate questions with full-sentence answers (`'sentences'`), questions with multiple-choice answers (`'multiple_choice'`), or a mix of both (`'all'`). This can be selected using the `qg.generate(answer_style=<style>)` arguments.
