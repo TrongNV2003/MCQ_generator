@@ -10,7 +10,7 @@ from transformers import (
     AutoModelForSequenceClassification,
 )
 from typing import Any, List, Mapping, Tuple
-
+from underthesea import ner
 
 class QuestionGenerator:
     """A transformer-based NLP system for generating reading comprehension-style questions from
@@ -178,13 +178,9 @@ class QuestionGenerator:
 
         return [self.qg_tokenizer.decode(s, skip_special_tokens=True) for s in segments]
 
-    def _prepare_qg_inputs(
-        self,
-        sentences: List[str],
-        text: str
-    ) -> Tuple[List[str], List[str]]:
-        """Uses sentences as answers and the text as context. Returns a tuple of (model inputs, answers).
-        Model inputs are "answer_token <answer text> context_token <context text>" 
+    def _prepare_qg_inputs(self, sentences: List[str], text: str) -> Tuple[List[str], List[str]]:
+        """Uses extracted entities or key phrases as answers and the text as context.
+        Returns a tuple of (model inputs, answers). Model inputs are "answer_token <answer text> context_token <context text>".
         """
         inputs = []
         answers = []
@@ -436,8 +432,8 @@ def print_qa(qa_list: List[Mapping[str, str]], show_answers: bool = True) -> Non
                 print(f"{space}A: {answer}\n")
                            
             # Print confidence score if it exists
-                if confidence is not None:
-                    print(f"{space}   Confidence: {confidence}")
+                # if confidence is not None:
+                #     print(f"{space}   Confidence: {confidence}")
 
             else:
                 print(f"{space}A: {answer}")
