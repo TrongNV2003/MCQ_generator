@@ -218,6 +218,7 @@ class QuestionGenerator:
 
         return inputs_from_text, answers_from_text
 
+# chỗ này đang có vấn đề
     def _get_MC_answers(self, correct_answer: Any, docs: Any) -> List[Mapping[str, Any]]:
         """Finds a set of alternative answers for a multiple-choice question. Will attempt to find
         alternatives of the same entity type as correct_answer if possible.
