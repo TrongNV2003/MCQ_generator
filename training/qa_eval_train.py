@@ -17,7 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--learning_rates", nargs="+", type=float, default=[2e-5, 1e-5])
     parser.add_argument("--max_length", type=int, default=512)
     parser.add_argument("--pad_mask_id", type=int, default=-100)
-    parser.add_argument("--qa_eval_model", type=str, default="trituenhantaoio/bert-base-vietnamese-uncased")
+    parser.add_argument("--qa_eval_model", type=str, default="vinai/phobert-base")
     parser.add_argument("--pin_memory", dest="pin_memory", action="store_true", default=False)
     parser.add_argument("--save_dir", type=str, default="./bert-base-cased-qa-evaluator")
     parser.add_argument("--train_batch_size", type=int, default=8)
