@@ -10,7 +10,6 @@ from transformers import (
     AutoModelForSequenceClassification,
 )
 from typing import Any, List, Mapping, Tuple
-from underthesea import ner
 
 class QuestionGenerator:
     """A transformer-based NLP system for generating reading comprehension-style questions from
